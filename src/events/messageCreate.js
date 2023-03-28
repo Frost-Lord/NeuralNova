@@ -1,6 +1,7 @@
 const { ButtonBuilder, ActionRowBuilder, EmbedBuilder, ButtonStyle, AttachmentBuilder } = require("discord.js");
-const MessageSchemas = require("../databse/Schema/messages.js");
-const GenerationSchemas = require("../databse/Schema/generation.js");
+const MessageSchemas = require("../database/Schema/messages.js");
+const GenerationSchemas = require("../database/Schema/generation.js");
+const ResponseSchemas = require("../database/Schema/response.js");
 const Canvas = require('canvas');
 
 module.exports = {
@@ -135,13 +136,20 @@ module.exports = {
                 const attachment = new AttachmentBuilder(canvas.toBuffer(), { name: 'thumbnail.png' });
                 return attachment;
             }
-
             const thumbnail = await generateThumbnail(predictionResult);
+
+
+            const ResponseDB = await ResponseSchemas.findOne({ code: predictionResult.predictedIntent });
+            const Percentage = `**${predictionResult.maxPrediction.toFixed(2) * 100}%**`;
+
+            const ResponseMessage = ResponseDB ? ResponseDB.response : `The predicted intent is **${predictionResult.predictedIntent}** with a confidence of ${Percentage}`;
+            const ResponseTitle = ResponseDB ? ResponseDB.title : `Prediction Result:`;
+            
             const embed = new EmbedBuilder()
-                .setTitle('Prediction Result:')
+                .setTitle(ResponseTitle)
                 .setThumbnail(`attachment://` + thumbnail.name)
                 .setColor(0x0099ff)
-                .setDescription(`The predicted intent is **${predictionResult.predictedIntent}** with a confidence of **${predictionResult.maxPrediction.toFixed(2) * 100}%**`)
+                .setDescription(ResponseMessage)
                 .setFooter({ text: `Generation: ${gen}` });
             try {
                 const sentMessage = await message.reply({ embeds: [embed], components: [row], files: [thumbnail] });

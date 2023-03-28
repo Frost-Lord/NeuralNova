@@ -1,7 +1,7 @@
 const tf = require('@tensorflow/tfjs-node');
 const fs = require('fs');
 const use = require('@tensorflow-models/universal-sentence-encoder');
-const TrainingSchema = require("../databse/Schema/training.js");
+const TrainingSchema = require("../database/Schema/training.js");
 
 let CodeIndex = [];
 let TrainingData = [];

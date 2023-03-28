@@ -1,6 +1,6 @@
 const { EmbedBuilder, PermissionsBitField, ButtonStyle, ButtonBuilder, ActionRowBuilder } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const GenerationSchema = require("../../databse/Schema/generation");
+const GenerationSchema = require("../../database/Schema/generation");
 
 module.exports = {
   data: new SlashCommandBuilder()

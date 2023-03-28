@@ -1,5 +1,5 @@
 const { InteractionType } = require("discord.js");
-const MessageSchemas = require("../databse/Schema/messages.js");
+const MessageSchemas = require("../database/Schema/messages.js");
 const { ButtonBuilder, ActionRowBuilder, EmbedBuilder, ButtonStyle } = require("discord.js");
 
 module.exports = {

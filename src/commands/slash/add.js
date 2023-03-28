@@ -1,6 +1,6 @@
 const { EmbedBuilder, PermissionsBitField, ButtonStyle, ButtonBuilder, ActionRowBuilder } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const TrainingSchema = require("../../databse/Schema/training");
+const TrainingSchema = require("../../database/Schema/training");
 
 module.exports = {
   data: new SlashCommandBuilder()
