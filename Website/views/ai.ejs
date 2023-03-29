@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>NeuralNova - Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="NeuralNova">
+    <meta property="og:type" content="NeuralNova">
+    <meta property="og:description" content="Deploy your own fully customisable AI for free!">
+    <meta name="theme-color" content="#00bbff">
+    <link rel="icon" type="image/png" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/dashboard/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <%- include('Sidebar.ejs') %>
+        </nav>
+        <main class="main">
+            <div class="contentWrapper">
+                <div class="topBar">
+                    <button id="startButton">Start Bot</button>
+                    <button id="stopButton">Stop Bot</button>
+                    <button id="restartButton">Restart Bot</button>
+                  </div>
+
+                  <div class="updateData">
+                    <h2>Update Bot Data</h2>
+                    <form>
+                      <label for="tokenInput">Bot Token:</label>
+                      <input type="text" id="tokenInput" name="tokenInput"><br><br>
+                      <label for="mongoInput">MongoDB URL:</label>
+                      <input type="text" id="mongoInput" name="mongoInput"><br><br>
+                      <button type="submit" id="updateButton">Update</button>
+                    </form>
+                  </div>
+
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>

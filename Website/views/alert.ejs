@@ -1,0 +1,64 @@
+<style>
+  .img {
+    max-width: 50px;
+  }
+  .loading-bar {
+    height: 5px;
+    background-color: #333;
+    transition: width 0.5s;
+  }
+</style>
+<script>
+  function createAlert(title, message) {
+    let img;
+
+    if (title == "error") {
+      img = "https://i.ibb.co/gthGYkc/alert-removebg-preview.png";
+    } else if (title == "success") {
+      img =
+        "https://i.ibb.co/YXZn2z4/72-723192-png-file-white-success-icon-png-removebg-preview.png";
+    } else if (title == "info") {
+      img = "https://i.ibb.co/FHx55qD/megaphone-1f4e3-removebg-preview.png";
+    } else if (title == "warning") {
+      img =
+        "https://i.ibb.co/9YN1QFB/56-561810-red-attention-sign-png-no-background-warning-icon-removebg-preview.png";
+    } else {
+      img = "https://i.ibb.co/FHx55qD/megaphone-1f4e3-removebg-preview.png";
+    }
+
+    const alert = document.createElement("div");
+    alert.classList.add("alert");
+    alert.innerHTML = `
+          <span class="closebtnnn" onclick="this.parentElement.style.display='none';">&times;</span> 
+          <strong><img class="img" src="${img}" alt=${title}></strong> ${message} <br> <div class="loading-bar"></div>
+        `;
+
+    if (title == "error") {
+      alert.style.backgroundColor = "#f44336";
+    } else if (title == "success") {
+      alert.style.backgroundColor = "#00FF00";
+    } else if (title == "info") {
+      alert.style.backgroundColor = "#2196F3";
+    } else if (title == "warning") {
+      alert.style.backgroundColor = "#ff9800";
+    } else {
+      alert.style.backgroundColor = "#2196F3";
+    }
+    document.body.appendChild(alert);
+
+    const loadingBar = alert.querySelector(".loading-bar");
+    let loadingBarWidth = 0;
+    const loadingBarInterval = setInterval(() => {
+      loadingBarWidth += 10;
+      loadingBar.style.width = `${loadingBarWidth}%`;
+      if (loadingBarWidth >= 100) {
+        clearInterval(loadingBarInterval);
+        alert.style.display = "none";
+      }
+    }, 500);
+
+    setTimeout(() => {
+      alert.style.display = "none";
+    }, 5000);
+  }
+</script>

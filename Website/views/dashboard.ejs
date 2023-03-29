@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>NeuralNova - Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="NeuralNova">
+    <meta property="og:type" content="NeuralNova">
+    <meta property="og:description" content="Deploy your own fully customisable AI for free!">
+    <meta name="theme-color" content="#00bbff">
+    <link rel="icon" type="image/png" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/dashboard/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <%- include('Sidebar.ejs') %>
+        </nav>
+        <main class="main">
+            <div class="contentWrapper">
+                <% if (user.instances && user.instances.length> 0) { %>
+                    <div class="card">
+                        <div class="cardTitle">
+                            <h2>Organization Data:</h2>
+                        </div>
+                        <div class="cardBody">
+                            <p>Name: {wfe}</p>
+                        </div>
+                        <button class="bubbleButton" onclick="">
+                            Access Organization
+                        </button>
+                    </div>
+                    <% } else { %>
+                        <div class="card">
+                            <div class="cardTitle">
+                                <h2>Create a Instance:</h2>
+                            </div>
+                            <div class="cardBody">
+                                <p>Click the button bellow to start</p>
+                            </div>
+                            <button class="bubbleButton" onclick="flip1()"> Start Instance </button>
+                        </div>
+                        <% } %>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal" id="flip1" style="display:none">
+        <div class="modalContent">
+            <div class="modalHeader">
+                <h2>Create a new Instance:</h2>
+                <button class="close">
+                    &times;
+                </button>
+            </div>
+            <br />
+            <div class="modalBody">
+                <form class="form">
+                    <label class="label" htmlFor="dorgname">Name:</label>
+                    <input class="input" type="text" id='name' placeholder='Project name' />
+                    <br></br>
+                    <label class="label" htmlFor="dorgname">Discord Token:</label>
+                    <input class="input" type="text" id='token'
+                        placeholder='erglsehgtiul-4lw53w56l3hw4543jh-qk45h3kq45' />
+                    <br></br>
+                    <label class="label" htmlFor="dorgname">Mongodb URL:</label>
+                    <input class="input" type="text" id='mongourl'
+                        placeholder='mongodb+srv://<USERNAME>:<PASSWORD>@cluster0.wsbiiod.mongodb.net/test' />
+                    <br></br>
+                    <label class="label" htmlFor="dorgname">Upload File:</label>
+                    <input class="input" type="file" id="upload" accept=".json" />
+                    <br></br>
+                    <label class="label" htmlFor="type">What is the project for?:</label>
+                    <select class="input" type="text" id='orgtype'>
+                        <option value="Personal">Personal</option>
+                        <option value="Educational">Educational</option>
+                        <option value="Startup">Startup</option>
+                        <option value="Agency">Agency</option>
+                        <option value="Company">Company</option>
+                        <option value="N/A">N/A</option>
+                    </select>
+                </form>
+                <div class="modalFooterLine"></div>
+                <div class="modalFooter">
+                    <button class="bubbleButton" onclick="CM1()">
+                        Cancel
+                    </button>
+                    <button class="bubbleButton" onclick="CInstance()">
+                        Create Instance
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        async function checkToken(token) {
+            try {
+                const response = await axios.get('https://discord.com/api/gateway/bot', { //this won't work because discord only allows bots to access this endpoint from a URL e.g: `mydomain.com`
+                    headers: {
+                        Authorization: `Bot ${token}`,
+                        UserAgent: "discordbot/1.0",
+                        Connection: "keep-alive",
+                    }
+                });
+                if (response.status === 200) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (error) {
+                console.error(error);
+                return null;
+            }
+        }
+
+        let filedata;
+        const fileInput = document.getElementById('upload');
+        fileInput.addEventListener("change", handleSelected);
+        const reader = new FileReader();
+
+        function handleEvent(event) {
+
+            if (event.type === "error" || event.type === "abort") {
+                console.log(event.target.error);
+            }
+
+            if (event.type === "loadend") {
+                filedata = JSON.parse(event.target.result);
+                //console.log(JSON.parse(event.target.result));
+            }
+        }
+
+        function addListeners(reader) {
+            reader.addEventListener("loadstart", handleEvent);
+            reader.addEventListener("load", handleEvent);
+            reader.addEventListener("loadend", handleEvent);
+            reader.addEventListener("progress", handleEvent);
+            reader.addEventListener("error", handleEvent);
+            reader.addEventListener("abort", handleEvent);
+        }
+
+        function handleSelected(e) {
+            const selectedFile = fileInput.files[0];
+            if (selectedFile) {
+                addListeners(reader);
+                reader.readAsText(selectedFile);
+            }
+        }
+
+        async function CInstance() {
+            const name = document.getElementById('name').value;
+            const orgtype = document.getElementById('orgtype').value;
+            const token = document.getElementById('token').value;
+            const mongodb = document.getElementById('mongourl').value;
+
+            if (!name || !orgtype || !token || !filedata || !mongodb) {
+                return alert('Please fill in all fields');
+            }
+
+            const data = {
+                name,
+                orgtype,
+                token,
+                file: filedata,
+                mongodb,
+                userid: "<%=user.id%>"
+            };
+
+            const response = await axios.post('/api/docker/create', data).catch((err) => {
+                console.error(err);
+            });
+            if (response.data.success) {
+                window.location.href = `/dashboard/${response.data.instance}/ai`;
+            } else {
+                alert(response.data.error);
+            }
+        }
+    </script>
+
+    <script>
+        var modal1 = document.getElementById("flip1");
+        function flip1() {
+            modal1.style.display = "block";
+        }
+        const closeButtons = document.querySelectorAll('.close');
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                modal1.style.display = "none";
+            });
+        });
+        function CM1() {
+            modal1.style.display = "none";
+        }
+        window.onclick = function (event) {
+            if (event.target == modal1) {
+                modal1.style.display = "none";
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>
