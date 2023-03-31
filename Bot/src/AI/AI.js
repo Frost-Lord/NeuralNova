@@ -59,7 +59,6 @@ async function Train() {
   const vocabulary = [...new Set(tokenizedInputData.flat())];
   const wordIndex = {};
   vocabulary.forEach((word, index) => wordIndex[word] = index);
-  const inputLength = Math.max(...tokenizedInputData.map(comment => comment.length));
 
   // Encode output data
   const CodeIndex2 = [...new Set(TrainingData.map(comment => comment.intent))];

@@ -22,26 +22,81 @@
         </nav>
         <main class="main">
             <div class="contentWrapper">
-                <div class="topBar">
-                    <button id="startButton">Start Bot</button>
-                    <button id="stopButton">Stop Bot</button>
-                    <button id="restartButton">Restart Bot</button>
-                  </div>
-
-                  <div class="updateData">
-                    <h2>Update Bot Data</h2>
-                    <form>
-                      <label for="tokenInput">Bot Token:</label>
-                      <input type="text" id="tokenInput" name="tokenInput"><br><br>
-                      <label for="mongoInput">MongoDB URL:</label>
-                      <input type="text" id="mongoInput" name="mongoInput"><br><br>
-                      <button type="submit" id="updateButton">Update</button>
-                    </form>
-                  </div>
-
+                <div class="card">
+                    <div class="cardHeader">
+                        <h1>Bot Management:</h1>
+                    </div>
+                    <div class="cardBody">
+                        <div class="topBar">
+                            <button onclick="startBot()">Start Bot</button>
+                            <button onclick="stopBot()">Stop Bot</button>
+                            <button onclick="restartBot()">Restart Bot</button>
+                        </div>
+                        <div class="updateData">
+                            <h2>Update Bot Data</h2>
+                            <form>
+                                <label for="tokenInput">Bot Token:</label>
+                                <input type="text" id="tokenInput" name="tokenInput"><br><br>
+                                <label for="mongoInput">MongoDB URL:</label>
+                                <input type="text" id="mongoInput" name="mongoInput"><br><br>
+                                <button type="submit" id="updateButton">Update</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
+
+
+    <script>
+        const dockerid = window.location.href.split("/")[4];
+
+        async function StatusCode(data) {
+            if (data.statusCode == 200) {
+                alert(data.message)
+            } else {
+                alert(data.error)
+            }
+        }
+
+        async function updateBotData() {
+            const token = document.getElementById("tokenInput").value;
+            const mongo = document.getElementById("mongoInput").value;
+            const data = {
+                token: token,
+                mongo: mongo
+            }
+            const response = await axios.post("/api/docker/update", data);
+            StatusCode(response.data);
+        }
+
+        async function startBot() {
+            const response = await axios.post("/api/docker/start", {
+                dockerid: dockerid,
+                userid: "<%=user.id%>"
+            });
+            StatusCode(response.data);
+        }
+
+        async function stopBot() {
+            const response = await axios.post("/api/docker/stop", {
+                dockerid: dockerid,
+                userid: "<%=user.id%>"
+            });
+            StatusCode(response.data);
+        }
+
+        async function restartBot() {
+            const response = await axios.post("/api/docker/restart", {
+                dockerid: dockerid,
+                userid: "<%=user.id%>"
+            });
+            StatusCode(response.data);
+        }
+
+
+    </script>
 
 </body>
 

@@ -1,6 +1,6 @@
 /node_modules
 *.DS_Store
-.env
+*.env
 package-lock.json
 .vscode/*
 pnpm-lock.yaml

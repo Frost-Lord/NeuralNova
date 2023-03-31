@@ -23,26 +23,30 @@
         <main class="main">
             <div class="contentWrapper">
                 <% if (user.instances && user.instances.length> 0) { %>
-                    <div class="card">
-                        <div class="cardTitle">
-                            <h2>Organization Data:</h2>
-                        </div>
-                        <div class="cardBody">
-                            <p>Name: {wfe}</p>
-                        </div>
-                        <button class="bubbleButton" onclick="">
-                            Access Organization
-                        </button>
-                    </div>
-                    <% } else { %>
+                    <% for (let i=0; i < user.instances.length; i++) { %>
                         <div class="card">
                             <div class="cardTitle">
-                                <h2>Create a Instance:</h2>
+                                <h2>Organization Data:</h2>
                             </div>
                             <div class="cardBody">
-                                <p>Click the button bellow to start</p>
+                                <p>Name: <%=user.instances[i].name %>
+                                </p>
                             </div>
-                            <button class="bubbleButton" onclick="flip1()"> Start Instance </button>
+                            <button class="bubbleButton"
+                                onclick="window.location.href = `/dashboard/<%=user.instances[i].containerId %>/ai`;"">
+                                Access Organization
+                            </button>
+                        </div>
+                        <% } %>
+                            <% } else { %>
+                                <div class=" card">
+                                <div class="cardTitle">
+                                    <h2>Create a Instance:</h2>
+                                </div>
+                                <div class="cardBody">
+                                    <p>Click the button bellow to start</p>
+                                </div>
+                                <button class="bubbleButton" onclick="flip1()"> Start Instance </button>
                         </div>
                         <% } %>
             </div>
