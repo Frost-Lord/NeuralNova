@@ -22,25 +22,36 @@
         </nav>
         <main class="main">
             <div class="contentWrapper">
-                <div class="card">
-                    <div class="cardHeader">
-                        <h1>Bot Management:</h1>
-                    </div>
-                    <div class="cardBody">
-                        <div class="topBar">
-                            <button onclick="startBot()">Start Bot</button>
-                            <button onclick="stopBot()">Stop Bot</button>
-                            <button onclick="restartBot()">Restart Bot</button>
+                <div class="cardbox-container">
+                    <div class="course">
+                        <div class="cardbox">
+                            <h6>Status:</h6>
+                            <br>
+                            <button onclick="startBot()" style="background-color: #00c83c;">Start Bot</button><br><br>
+                            <button onclick="stopBot()" style="background-color: #d70000;">Stop Bot</button><br><br>
+                            <button onclick="restartBot()" style="background-color: #cff123;">Restart Bot</button>
                         </div>
-                        <div class="updateData">
-                            <h2>Update Bot Data</h2>
+                        <div class="botform">
                             <form>
                                 <label for="tokenInput">Bot Token:</label>
                                 <input type="text" id="tokenInput" name="tokenInput"><br><br>
                                 <label for="mongoInput">MongoDB URL:</label>
                                 <input type="text" id="mongoInput" name="mongoInput"><br><br>
-                                <button type="submit" id="updateButton">Update</button>
                             </form>
+                            <button class="btn">Update</button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="cardbox-container">
+                    <div class="course">
+                        <div class="cardbox">
+                            <h6>Bot logs:</h6>
+                        </div>
+                        <div class="botform">
+                            <div class="logs-container">
+                                <pre id="logs"></pre>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -50,7 +61,21 @@
 
 
     <script>
+        if (!"<%=user.id%>") window.location.replace("/login");
         const dockerid = window.location.href.split("/")[4];
+
+
+        async function getLogs() {
+            const response = await axios.post("/api/docker/logs", {
+                dockerid: dockerid,
+                userid: "<%=user.id%>"
+            });
+
+            document.getElementById("logs").innerHTML = response.data.logs;
+        }
+        getLogs();
+        setInterval(getLogs, 15000);
+
 
         async function StatusCode(data) {
             if (data.statusCode == 200) {
