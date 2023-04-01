@@ -261,7 +261,7 @@
   color: #fff;
   border: 1px solid var(--card-shadow);
   width: 50%;
-  box-shadow: 0 0 0.5rem #40bf86;
+  box-shadow: 0 0 0.5rem #0a192f;
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: .4s;
   animation-name: animatetop;
@@ -358,7 +358,7 @@
 }
 
 .botform button {
-  background-color: #4CAF50;
+  background-color: #48c0a8;
   color: white;
   border: none;
   border-radius: 5px;

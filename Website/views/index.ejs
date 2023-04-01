@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <meta name="title" content="NeuralNova" />
+  <meta name="description" content="Instant Acess to over 100 Milling/3D Printing Machines" />
+  <meta name="author" content="NeuralNova" />
+
+  <title>NeuralNova</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href='http://fonts.googleapis.com/css?family=DM+Sans' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <nav>
+    <div class="logo">
+      <a href="/">NeuralNova</a>
+    </div>
+    <div class="nav-links">
+      <a class="green">1.0</a><a href="/">Home</a>
+      <a class="green">1.1</a><a href="/login">Login</a>
+    </div>
+  </nav>
+
+  <div id="loader-wrapper" class="loader-wrapper">
+    <div id="loader" class="loadimg">
+      <div class="spinner-3"></div>
+    </div>
+  </div>
+  
+  <style>
+    .loader-wrapper {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: #0a192f;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+    }
+  
+    .loadimg .spinner-3 {
+      align-items: center;
+      position: relative;
+      top: 45%;
+      left: 50%;
+      width: 50px;
+      padding: 8px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: #48c0a8;
+      --_m:
+        conic-gradient(#0000 10%, #000),
+        linear-gradient(#000 0 0) content-box;
+      -webkit-mask: var(--_m);
+      mask: var(--_m);
+      -webkit-mask-composite: source-out;
+      mask-composite: subtract;
+      animation: s3 1s infinite linear;
+    }
+  
+    @keyframes s3 {
+      to {
+        transform: rotate(1turn)
+      }
+    }
+  </style>
+  
+  <script>
+    window.addEventListener("load", function () {
+      const loader = document.getElementById("loader-wrapper");
+      setTimeout(function () {
+        loader.style.display = "none";
+      }, 2000);
+    });
+  </script>
+
+  <div class="heading">
+    <div class="detail-box">
+      <h2>A simple to use Database at your finger tips</h2>
+      <p>
+        Our database is designed to be simple to use and easy to navigate. We have a variety of services to help bring your ideas to life. Our team of experts specialize in data management, so you can rest assured that your project is in good hands.
+      </p>
+      <div class="btn-box">
+        <a href="" class="btn-1">
+          More Info
+        </a>
+        <a href="" class="btn-2">
+          Dashboard
+        </a>
+      </div>
+    </div>
+    <div class="img-box">
+      <img
+        src="https://i.ibb.co/4MxV3pM/3d-cnc-machine-operator-in-isometric-design-free-vector-removebg-preview.png"
+        alt="NeuralNova" />
+    </div>
+  </div>
+
+
+  <div class="sectiondiv"></div>
+
+  <section class="services">
+    <div class="container">
+      <h2><a class="green">1.0</a> Our Services</h2>
+      <p>At NeuralNova, we offer a variety of services to help bring your ideas to life. Our team of experts specialize in 3D printing and CNC machining, so you can rest assured that your project is in good hands.</p>
+  
+      <div class="service">
+        <h3>3D Printing</h3>
+        <p>Our 3D printing service allows you to turn your digital designs into physical objects. Whether you need a single prototype or a large production run, we have the equipment and expertise to get the job done.</p>
+        <ul>
+          <li>FDM (Fused Deposition Modeling)</li>
+          <li>SLS (Selective Laser Sintering)</li>
+          <li>DMLS (Direct Metal Laser Sintering)</li>
+          <li>SLA (Stereolithography)</li>
+        </ul>
+        <a href="#">Learn More</a>
+      </div>
+  
+      <div class="service">
+        <h3>CNC Machining</h3>
+        <p>Our CNC machining service offers precision and accuracy to create high-quality parts and components. With a wide range of materials and finishes available, we can create parts for any project.</p>
+        <ul>
+          <li>3-Axis Milling</li>
+          <li>4-Axis Milling</li>
+          <li>5-Axis Milling</li>
+          <li>Turning</li>
+        </ul>
+        <a href="#">Learn More</a>
+      </div>
+  
+      <div class="service">
+        <h3>Upload and Print</h3>
+        <p>If you already have a 3D file ready to go, our Upload and Print service makes it easy to get your parts printed. Simply upload your file, select your options, and we'll take care of the rest.</p>
+        <a href="#">Upload Now</a>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+  <script>
+    window.addEventListener('load', function () {
+      var nav = document.querySelector('nav');
+      nav.classList.add('nav-open');
+    });
+  </script>
+  
+
+</body>
+
+</html>

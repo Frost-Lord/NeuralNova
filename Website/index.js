@@ -82,6 +82,14 @@ fs.readdirSync("./API/general").forEach((file) => {
 // Website
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+const UserCheck = (req, res, next) => {
+    if (req.session.user) {
+        next();
+    } else {
+        res.redirect("/login");
+    }
+};
+
 app.get("/", function (req, res) {
     res.render("index", {
     });
@@ -108,13 +116,13 @@ app.get("/logout", (req, res) => {
 
 
 
-app.get("/dashboard", function (req, res) {
+app.get("/dashboard", UserCheck, function (req, res) {
     res.render("dashboard", {
         user: req.session.user,
     });
 });
 
-app.get("/dashboard/:id/ai", function (req, res) {
+app.get("/dashboard/:id/ai", UserCheck, function (req, res) {
     res.render("ai", {
         user: req.session.user,
     });
