@@ -22,36 +22,56 @@
         </nav>
         <main class="main">
             <div class="contentWrapper">
-                <% if (user.instances && user.instances.length> 0) { %>
-                    <% for (let i=0; i < user.instances.length; i++) { %>
-                        <div class="card">
-                            <div class="cardTitle">
-                                <h2>Organization Data:</h2>
-                            </div>
-                            <div class="cardBody">
-                                <p>Name: <%=user.instances[i].name %>
-                                </p>
-                            </div>
-                            <button class="bubbleButton"
-                                onclick="window.location.href = `/dashboard/<%=user.instances[i].containerId %>/ai`;"">
-                                Access Organization
+                <div class="grid-container">
+                    <% if (user.instances && user.instances.length> 0) { %>
+                        <% for (let i=0; i < user.instances.length; i++) { %>
+                            <div class="card grid-item">
+                                <div class="cardTitle">
+                                    <h2>Bot <%= i + 1 %>:</h2>
+                                </div>
+                                <div class="cardBody">
+                                    <p>Name: <%=user.instances[i].name %>
+                                    </p>
+                                </div>
+                                <button class="bubbleButton"
+                                    onclick="window.location.href = `/dashboard/<%=user.instances[i].containerId %>/ai`;"">
+                                Access Bot
                             </button>
                         </div>
                         <% } %>
-                            <% } else { %>
-                                <div class=" card">
-                                <div class="cardTitle">
-                                    <h2>Create a Instance:</h2>
-                                </div>
-                                <div class="cardBody">
-                                    <p>Click the button bellow to start</p>
-                                </div>
-                                <button class="bubbleButton" onclick="flip1()"> Start Instance </button>
-                        </div>
-                        <% } %>
+                            <% } %>
+                                <div class="card grid-item">
+                                    <div class="cardTitle">
+                                        <h2>Create a Instance:</h2>
+                                    </div>
+                                    <div class="cardBody">
+                                        <p>Click the button bellow to start</p>
+                                    </div>
+                                    <button class="bubbleButton" onclick="flip1()"> Start Instance </button>
+                            </div>
+                </div>
             </div>
         </main>
     </div>
+
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .grid-item {
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            font-size: 30px;
+            text-align: center;
+        }
+        .grid-item:hover {
+            box-shadow: inset 0 4 4 8 #54b3d6;
+        }
+    </style>
 
     <div class="modal" id="flip1" style="display:none">
         <div class="modalContent">
