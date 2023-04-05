@@ -6,6 +6,28 @@ const moment = require("moment");
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v10');
 require("dotenv").config();
+const TrainingSchema = require("./src/database/Schema/training.js");
+
+if (process.env.TRAININGDATA) {
+  const trainingData = JSON.parse(process.env.TRAININGDATA);
+
+  Promise.all(
+    trainingData.map(async (data) => {
+      if (!data.text) return console.log("No text provided") && process.exit(1);
+      if (!data.intent) return console.log("No intent provided") && process.exit(1);
+      if (!data.response) return console.log("No response provided") && process.exit(1);
+      const training = new TrainingSchema({
+        text: data.text,
+        intent: data.intent,
+        response: data.response
+      });
+      await training.save().catch((err) => console.log(err));
+    })
+  ).then(() => {
+    console.log("Training Data Saved!");
+    delete process.env.TRAININGDATA;
+  });
+}
 
 client.commands = new Collection()
 client.slashcommands = new Collection()
@@ -21,24 +43,23 @@ if (!process.env.MONGOURI) return log("Please enter your mongo uri in the .env f
 
 
 mongoose
-    .connect(process.env.MONGOURI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => {
-        console.log("Connected to MongoDB");
-    })
-    .catch((err) => {
-        console.log("Unable to connect to MongoDB Database.\nError: " + err);
-    });
+  .connect(process.env.MONGOURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.log("Unable to connect to MongoDB Database.\nError: " + err);
+  });
 mongoose.connection.on("err", (err) => {
-    console.error(`Mongoose connection error: \n ${err.stack}`);
+  console.error(`Mongoose connection error: \n ${err.stack}`);
 });
 mongoose.connection.on("disconnected", () => {
-    console.log("Mongoose connection disconnected");
+  console.log("Mongoose connection disconnected");
 });
 
-//slash-command-handler
 const slashcommands = [];
 readdirSync('./src/commands/slash').forEach(async file => {
   const command = await require(`./src/commands/slash/${file}`);
@@ -58,7 +79,6 @@ client.on("ready", async () => {
   log(`${client.user.username} Activated!`);
 })
 
-//event-handler
 readdirSync('./src/events').forEach(async file => {
   const event = await require(`./src/events/${file}`);
   if (event.once) {
@@ -66,23 +86,7 @@ readdirSync('./src/events').forEach(async file => {
   } else {
     client.on(event.name, (...args) => event.execute(...args));
   }
-})
-
-//nodejs-events
-process.on("unhandledRejection", e => {
-  console.log(e)
-})
-process.on("uncaughtException", e => {
-  console.log(e)
-})
-process.on("uncaughtExceptionMonitor", e => {
-  console.log(e)
-})
-
-
-
-const timestampd = Math.floor(Date.now() / 1000);
-const deldate = timestampd + 864000;
+});
 
 client.login(process.env.TOKEN).catch(e => {
   console.log(e)

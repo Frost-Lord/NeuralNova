@@ -10,5 +10,6 @@ services:
     environment:
       - TOKEN=${token}
       - MONGOURI=${mongouri}
+      - TRAININGDATA=${trainingdata}
     ports:
       - "3000:3000"

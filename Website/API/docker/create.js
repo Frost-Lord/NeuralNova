@@ -20,10 +20,11 @@ module.exports = (router, client) => {
         }
 
 
+        const fileAsString = typeof file === 'object' ? JSON.stringify(file) : file;
         const docker = new Docker();
         const containerOptions = {
             Image: 'ai',
-            Env: [`TOKEN=${token}`, `MONGOURI=${mongodb}`],
+            Env: [`TOKEN=${token}`, `MONGOURI=${mongodb}`, `TRAININGDATA=${fileAsString}`],
             Tty: true,
         };
 
